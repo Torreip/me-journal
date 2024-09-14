@@ -58,6 +58,7 @@ function Component({}) {
 - Use English only for naming.
 - Only one Class | Component | Function per file
 - Utilisation de `ES6` (async/await, import, ...)
+- Only using function components and not class components.
 
 Ressources about [CamelCase](https://en.wikipedia.org/wiki/Camel_case) in general
 
@@ -136,8 +137,8 @@ root
 │   ├── types/
 │   │   └── {type}.ts
 │   │
-│   ├── apis/
-│   │   └── {api}.ts
+│   ├── worker/
+│   │   └── {worker}.ts
 │   │
 │   │ 
 │   └── app/
@@ -175,7 +176,7 @@ Ressources about [CamelCase](https://en.wikipedia.org/wiki/Camel_case) in genera
 - `style/global.css`: the only css file we should use for the project (tailwind loaders and some execptions)
 - `enums`: typescript enums of the project
 - `types`: typescript types of the project
-- `apis`: apis of the project
+- `worker`: webworkers for multithreading
 - `app`: [Next.js app router](https://nextjs.org/docs/app)
 - `.next-env.d.ts`: [typescript in Next.js](https://nextjs.org/docs/app/building-your-application/configuring/typescript)
 - `next.config.mjs`: [Next.js config](https://nextjs.org/docs/app/api-reference/next-config-js)
