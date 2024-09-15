@@ -1,0 +1,48 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model users {
+  id          Int              @id @default(autoincrement())
+  username    String           @unique @db.VarChar(255)
+  accessKey   String           @db.VarChar(255)
+  usesPasskey Boolean?         @default(false)
+  privileges  privilegeslevel? @default(user)
+  files       files[]
+  notes       notes[]
+}
+
+model files {
+  id              Int       @id @default(autoincrement())
+  ownerId         Int
+  noteId          Int
+  filePath        String    @db.VarChar(255)
+  fileName        String    @db.VarChar(255)
+  fileChecksum    String    @db.VarChar(255)
+  fileSize        Int
+  uploadTimestamp DateTime? @default(now()) @db.Timestamp(6)
+  notes           notes     @relation(fields: [noteId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "noteId")
+  users           users     @relation(fields: [ownerId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "ownerId")
+}
+
+model notes {
+  id                Int       @id @default(autoincrement())
+  ownerId           Int
+  content           String
+  atachedFiles      Int[]
+  contentChecksum   String    @db.VarChar(255)
+  editTimestamp     DateTime? @default(now()) @db.Timestamp(6)
+  creationTimestamp DateTime? @default(now()) @db.Timestamp(6)
+  files             files[]
+  users             users     @relation(fields: [ownerId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "ownerId")
+}
+
+enum privilegeslevel {
+  admin
+  user
+}
