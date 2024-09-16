@@ -15,6 +15,7 @@ CREATE TABLE IF NOT EXISTS notes (
   id INT GENERATED ALWAYS AS IDENTITY,
   "ownerId" INT NOT NULL,
   content TEXT NOT NULL, -- Encrypted content
+  "noteIV" VARCHAR(255) NOT NULL, -- Initialization Vector for the encryption
   "atachedFiles" INT[], -- Array of file ids so one can be easily deleted (Getting being a non-issue)
   "contentChecksum" VARCHAR(255) NOT NULL, -- Calculated by the Client on the encrypted content Checked by the server
   "editTimestamp" TIMESTAMP DEFAULT CURRENT_TIMESTAMP, -- Last time the note was edited avoid concurrency issues
