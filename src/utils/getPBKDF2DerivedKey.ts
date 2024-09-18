@@ -1,4 +1,4 @@
-async function getDerivedKey(password: string) {
+async function getPBKDF2DerivedKey(password: string) {
     const salt = "salt";
     const iterations = 100000;
     const textEncoder = new TextEncoder();
@@ -27,4 +27,4 @@ async function getDerivedKey(password: string) {
     return derivedKey;
 }
 
-export default getDerivedKey;
+export default getPBKDF2DerivedKey;
