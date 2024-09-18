@@ -1,4 +1,6 @@
-async function encrypt(data: string, key: CryptoKey) {
+import encryptedData from "@/types/encryptedData";
+
+async function encrypt(data: string, key: CryptoKey): Promise<encryptedData> {
     const iv = window.crypto.getRandomValues(new Uint8Array(255));
     const result = await window.crypto.subtle.encrypt(
         { name: "AES-GCM", iv },
