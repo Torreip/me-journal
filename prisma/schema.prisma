@@ -34,6 +34,7 @@ model notes {
   id                Int       @id @default(autoincrement())
   ownerId           Int
   content           String
+  noteIV            String    @db.VarChar(255)
   atachedFiles      Int[]
   contentChecksum   String    @db.VarChar(255)
   editTimestamp     DateTime? @default(now()) @db.Timestamp(6)
