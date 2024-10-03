@@ -1,29 +1,39 @@
+import noteAdding from "@/types/noteAdding";
 import prisma from "@/utils/prisma";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(request: NextRequest) {
     const userID = 1; // TODO need to be retrieved from the token
-    if (request.body) {
+    const data = await request.text();
+    if (data) {
         try {
-            const body = JSON.parse(await request.text());
+            const body: noteAdding = JSON.parse(data);
             const { content, noteIV, contentChecksum, creationTimestamp } =
                 body;
-            const { id } = await prisma.notes.create({
-                data: {
-                    ownerId: userID,
-                    content,
-                    noteIV,
-                    atachedFiles: [],
-                    contentChecksum,
-                    creationTimestamp,
-                    editTimestamp: null,
-                },
-            });
-            return NextResponse.json({ success: true, data: { id } });
+            if (
+                [content, noteIV, contentChecksum, creationTimestamp].every(
+                    (value) => typeof value == "string"
+                )
+            ) {
+                const { id } = await prisma.notes.create({
+                    data: {
+                        ownerId: userID,
+                        content,
+                        noteIV,
+                        atachedFiles: [],
+                        contentChecksum,
+                        creationTimestamp,
+                        editTimestamp: null,
+                    },
+                });
+                return NextResponse.json({ success: true, data: { id } });
+            } else {
+                return NextResponse.json({ success: false }, { status: 400 });
+            }
         } catch (e) {
             console.error(e);
-            return NextResponse.json({ success: false }, { status: 500 });
         }
+        return NextResponse.json({ success: false }, { status: 500 });
     } else {
         return NextResponse.json(
             {
