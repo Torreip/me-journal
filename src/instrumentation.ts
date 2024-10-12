@@ -1,8 +1,6 @@
 import prisma from "@/utils/prisma";
 
 export async function register() {
-    await prisma.users.deleteMany();
-
     const users = await prisma.users.count();
     if (users == 0) {
         // if no users are saved
