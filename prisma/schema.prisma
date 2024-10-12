@@ -43,6 +43,11 @@ model notes {
   users             users     @relation(fields: [ownerId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "ownerId")
 }
 
+model settings {
+  id                Int       @id @default(autoincrement())
+  password          String    @db.VarChar(5)
+}
+
 enum privilegeslevel {
   admin
   user
