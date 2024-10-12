@@ -1,5 +1,5 @@
 import apiResponse from "@/types/apiResponse";
-import loginData from "@/types/loginData";
+import registerData from "@/types/registerData";
 import prisma from "@/utils/prisma";
 import { hashSync } from "bcrypt";
 import { NextRequest, NextResponse } from "next/server";
@@ -21,11 +21,8 @@ export async function POST(
         const userCount = await prisma.users.count();
         // if that's the first account (admin account)
         if (userCount == 0) {
-            const {
-                verificationPassword,
-                password,
-                username,
-            }: loginData & { verificationPassword: string } = JSON.parse(body);
+            const { verificationPassword, password, username }: registerData =
+                JSON.parse(body);
             // if any value isn't present or in a incorrect type
             if (
                 [verificationPassword, password, username].some(
