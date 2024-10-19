@@ -4,7 +4,7 @@ import crypto from "crypto";
 import Link from "next/link";
 import { FormEvent, useState } from "react";
 
-export default function Login() {
+export default function Register() {
     const [isLogged, setLogged] = useState(false);
     const [isWrong, setWrong] = useState(false);
     const [derivedKey, setderivedKey] = useState<undefined | CryptoKey>();
@@ -15,26 +15,30 @@ export default function Login() {
         const formData = new FormData(event.currentTarget);
         const username = formData.get("username")?.toString();
         const password = formData.get("password")?.toString();
+        const verificationPassword = formData
+            .get("verificationPassword")
+            ?.toString();
 
-        if (username && password) {
+        if (username && password && verificationPassword) {
             const salt = "salt";
             const hash = crypto
                 .createHash("sha256")
                 .update(salt + username + password)
                 .digest("hex");
 
-            const response = await fetch("/api/auth/login", {
+            const response = await fetch("/api/users", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ username, hash }),
+                body: JSON.stringify({ username, hash, verificationPassword }),
             });
 
             const cryptoKey = await getPBKDF2DerivedKey(password);
 
             if (response.ok && cryptoKey instanceof CryptoKey) {
                 setderivedKey(cryptoKey); // TODO may need to be stored somewhere else
-                setLogged(true);
-                // TODO handle JWT reception, storage and update
+                setLogged(false);
+                const token: string = JSON.parse(await response.text()).data
+                    .token;
             } else {
                 setWrong(true);
             }
@@ -67,6 +71,13 @@ export default function Login() {
                             placeholder="password"
                             required
                         />
+                        <input
+                            className="mt-4 w-full rounded-sm bg-[#353535] placeholder:opacity-40 px-4 py-2 focus:outline-none focus:bg-[#474747]"
+                            type="password"
+                            name="verificationPassword"
+                            placeholder="verification password"
+                            required
+                        />
                         {isWrong ? (
                             <p className="mt-2 text-[#EA3C3C]">
                                 Wrong password or login
@@ -78,11 +89,11 @@ export default function Login() {
                             className="mt-8 w-full rounded-sm bg-[#353535] placeholder:opacity-40 px-4 py-2 focus:outline-none focus:bg-[#474747] hover:bg-[#474747]"
                             type="submit"
                         >
-                            Login
+                            Register
                         </button>
-                        <Link href={"/register"}>
+                        <Link href={"/"}>
                             <button className="mt-8 w-full rounded-sm bg-[#353535] placeholder:opacity-40 px-4 py-2 focus:outline-none focus:bg-[#474747] hover:bg-[#474747]">
-                                Create an account
+                                Already have an account
                             </button>
                         </Link>
                     </form>

@@ -1,36 +1,19 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# me-journal
 
-## Getting Started
+## Project description
 
-First, run the development server:
+Me-journal is a [Next.js](https://nextjs.org) project to create journals about your day. The project is made as a zero-trust app which means that the server doesn't know anything about your data and never get your data.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## Setup
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+To setup this project, you need to install dependencies with `pnpm install` and then run [the database](#database). The setup of the database is described below.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+To run this app you need to create a `.env` file, an example is available in the [.env.example file](./.env.example). Please replace `username`, `password` and `database` with the correct informations.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+To run the development web server, simply run `pnpm dev`
 
-## Learn More
+## DataBase
 
-To learn more about Next.js, take a look at the following resources:
+We decided to use PostgreSQL on our project, to run the database you need to create a docker volume `me-journal-db-data` and simply run `docker compose up` or `docker compose up -d` if you want to start it in detached mode.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+The database can be started on another server as well, if you want to, you need to change `localhost` on your `.env` file by the ip address of the server hosting your database. Please check your firewall.
