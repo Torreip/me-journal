@@ -2,6 +2,7 @@ import apiResponse from "@/types/apiResponse";
 import registerData from "@/types/registerData";
 import prisma from "@/utils/prisma";
 import { hashSync } from "bcrypt";
+import { sign } from "jsonwebtoken";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(
@@ -21,11 +22,11 @@ export async function POST(
         const userCount = await prisma.users.count();
         // if that's the first account (admin account)
         if (userCount == 0) {
-            const { verificationPassword, password, username }: registerData =
+            const { verificationPassword, hash, username }: registerData =
                 JSON.parse(body);
             // if any value isn't present or in a incorrect type
             if (
-                [verificationPassword, password, username].some(
+                [verificationPassword, hash, username].some(
                     (value) => typeof value != "string"
                 )
             ) {
@@ -38,10 +39,20 @@ export async function POST(
                     }
                 );
             }
-            const passwordHash = hashSync(password, 10);
+            const passwordHash = hashSync(hash, 10);
             await prisma.settings.deleteMany({
                 where: {
                     password: verificationPassword,
+                },
+            });
+
+            const password = `${Math.floor(Math.random() * 8999 + 1000)}`;
+            console.log(
+                `Use the code "${password}" to create your first account.`
+            );
+            await prisma.settings.create({
+                data: {
+                    password,
                 },
             });
             const { id, privileges } = await prisma.users.create({
@@ -51,6 +62,15 @@ export async function POST(
                     privileges: "admin",
                 },
             });
+            const token = sign(
+                {
+                    id,
+                },
+                "Test123*",
+                {
+                    expiresIn: 43_200,
+                }
+            );
             return NextResponse.json(
                 {
                     success: true,
@@ -58,6 +78,7 @@ export async function POST(
                         id,
                         privileges,
                         username,
+                        token,
                     },
                 },
                 {

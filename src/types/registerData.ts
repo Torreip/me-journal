@@ -1,6 +1,6 @@
 type registerData = {
     username: string;
-    password: string;
+    hash: string;
     verificationPassword: string;
 };
 
