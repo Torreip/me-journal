@@ -22,11 +22,11 @@ export async function POST(
         const userCount = await prisma.users.count();
         // if that's the first account (admin account)
         if (userCount == 0) {
-            const { verificationPassword, password, username }: registerData =
+            const { verificationPassword, hash, username }: registerData =
                 JSON.parse(body);
             // if any value isn't present or in a incorrect type
             if (
-                [verificationPassword, password, username].some(
+                [verificationPassword, hash, username].some(
                     (value) => typeof value != "string"
                 )
             ) {
@@ -39,7 +39,7 @@ export async function POST(
                     }
                 );
             }
-            const passwordHash = hashSync(password, 10);
+            const passwordHash = hashSync(hash, 10);
             await prisma.settings.deleteMany({
                 where: {
                     password: verificationPassword,
