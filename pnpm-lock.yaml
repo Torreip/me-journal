@@ -11,18 +11,6 @@ importers:
       '@prisma/client':
         specifier: 5.19.1
         version: 5.19.1(prisma@5.19.1)
-      '@types/bcrypt':
-        specifier: ^5.0.2
-        version: 5.0.2
-      '@types/jsonwebtoken':
-        specifier: ^9.0.7
-        version: 9.0.7
-      bcrypt:
-        specifier: ^5.1.1
-        version: 5.1.1
-      jsonwebtoken:
-        specifier: ^9.0.2
-        version: 9.0.2
       next:
         specifier: 14.2.11
         version: 14.2.11(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
@@ -189,12 +177,6 @@ packages:
 
   '@swc/helpers@0.5.5':
     resolution: {integrity: sha512-KGYxvIOXcceOAbEk4bi/dVLEK9z8sZ0uBB3Il5b1rhfClSpcX0yfRO0KmTkqR2cnQDymwLB+25ZyMzICg/cm/A==}
-
-  '@types/bcrypt@5.0.2':
-    resolution: {integrity: sha512-6atioO8Y75fNcbmj0G7UjI9lXN2pQ/IGJ2FWT4a/btd0Lk9lQalHLKhkgKVZ3r+spnmWUKfbMi1GEe9wyHQfNQ==}
-
-  '@types/jsonwebtoken@9.0.7':
-    resolution: {integrity: sha512-ugo316mmTYBl2g81zDFnZ7cfxlut3o+/EQdaP7J8QN2kY6lJ22hmQYCK5EHcJHbrW+dkCGSCPgbG8JtYj6qSrg==}
 
   '@types/node@20.16.5':
     resolution: {integrity: sha512-VwYCweNo3ERajwy0IUlqqcyZ8/A7Zwa9ZP3MnENWcB11AejO+tLy3pu850goUW2FC/IJMdZUfKpX/yxL1gymCA==}
@@ -1022,14 +1004,6 @@ snapshots:
     dependencies:
       '@swc/counter': 0.1.3
       tslib: 2.7.0
-
-  '@types/bcrypt@5.0.2':
-    dependencies:
-      '@types/node': 20.16.5
-
-  '@types/jsonwebtoken@9.0.7':
-    dependencies:
-      '@types/node': 20.16.5
 
   '@types/node@20.16.5':
     dependencies:
