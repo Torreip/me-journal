@@ -2,6 +2,7 @@ import apiResponse from "@/types/apiResponse";
 import registerData from "@/types/registerData";
 import prisma from "@/utils/prisma";
 import { hashSync } from "bcrypt";
+import { sign } from "jsonwebtoken";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(
@@ -51,6 +52,15 @@ export async function POST(
                     privileges: "admin",
                 },
             });
+            const token = sign(
+                {
+                    id,
+                },
+                "Test123*",
+                {
+                    expiresIn: 43_200,
+                }
+            );
             return NextResponse.json(
                 {
                     success: true,
@@ -58,6 +68,7 @@ export async function POST(
                         id,
                         privileges,
                         username,
+                        token,
                     },
                 },
                 {
