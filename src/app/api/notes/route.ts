@@ -1,6 +1,6 @@
 import apiResponse from "@/types/apiResponse";
 import prisma from "@/utils/prisma";
-import { sign, verify } from "jsonwebtoken";
+import { verify } from "jsonwebtoken";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(
@@ -46,27 +46,5 @@ export async function GET(
     return NextResponse.json({
         success: true,
         data: notes,
-    });
-}
-
-export async function POST() {
-    const { id } = await prisma.users.create({
-        data: {
-            username: "test2",
-            accessKey: "test123*",
-        },
-    });
-    const token = sign(
-        {
-            id,
-        },
-        "Test123*",
-        {
-            expiresIn: 43_200,
-        }
-    );
-    return NextResponse.json({
-        success: true,
-        data: token,
     });
 }
