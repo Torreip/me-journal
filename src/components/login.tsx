@@ -7,7 +7,6 @@ import { FormEvent, useState } from "react";
 export default function Login() {
     const [isLogged, setLogged] = useState(false);
     const [isWrong, setWrong] = useState(false);
-    const [derivedKey, setderivedKey] = useState<undefined | CryptoKey>();
 
     async function handleSubmit(event: FormEvent<HTMLFormElement>) {
         event.preventDefault();
@@ -32,9 +31,22 @@ export default function Login() {
             const cryptoKey = await getPBKDF2DerivedKey(password);
 
             if (response.ok && cryptoKey instanceof CryptoKey) {
-                setderivedKey(cryptoKey); // TODO may need to be stored somewhere else
                 setLogged(true);
-                // TODO handle JWT reception, storage and update
+                const token: string = JSON.parse(await response.text()).data
+                    .token;
+                localStorage.setItem(
+                    "key",
+                    btoa(
+                        String.fromCharCode(
+                            ...new Uint8Array(
+                                await crypto.subtle.exportKey("raw", cryptoKey)
+                            )
+                        )
+                    )
+                );
+                // FIXME
+                // TODO CHANGE IT (only for development purposes)
+                localStorage.setItem("token", token);
             } else {
                 setWrong(true);
             }

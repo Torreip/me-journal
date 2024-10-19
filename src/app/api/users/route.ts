@@ -48,7 +48,7 @@ export async function POST(
 
             const password = `${Math.floor(Math.random() * 8999 + 1000)}`;
             console.log(
-                `Use the code "${password}" to create your first account.`
+                `Use the code "${password}" to create your account.`
             );
             await prisma.settings.create({
                 data: {
