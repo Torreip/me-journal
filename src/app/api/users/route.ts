@@ -45,6 +45,16 @@ export async function POST(
                     password: verificationPassword,
                 },
             });
+
+            const password = `${Math.floor(Math.random() * 8999 + 1000)}`;
+            console.log(
+                `Use the code "${password}" to create your first account.`
+            );
+            await prisma.settings.create({
+                data: {
+                    password,
+                },
+            });
             const { id, privileges } = await prisma.users.create({
                 data: {
                     accessKey: passwordHash,
